@@ -1,30 +1,32 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+          href="css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
         }
     </style>
-    <title>
-        Title
-    </title>
 </head>
 <body>
-<form action="plan.html" th:action method="post">
-    <div>
-        <label for="input">입력하세요</label>
-        <input type="text" id="input" name="input" class="form-control" value="상품A" th:value="${input}">
-    </div>
-    <hr class="my-4">
-    <div class="row"><div class="col">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">계산하기
-        </button>
-    </div>
-    </div>
-</form>
+<div class="container" style="max-width: 600px">
+    <form action="result.html" th:action="@{/result}" method="post">
+        <div class="py-5 text-center">
+            <h2>입력하세요</h2>
+        </div>
+        <div>
+            <textarea id="input" name="input" style="height: 600px" class="form-control"></textarea>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">계산하기
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

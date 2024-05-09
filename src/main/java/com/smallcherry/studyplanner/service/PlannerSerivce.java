@@ -1,6 +1,7 @@
 package com.smallcherry.studyplanner.service;
 
 import com.smallcherry.studyplanner.domain.Lecture;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,17 +9,19 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PlannerSerivce {
     public void getPlan(String input) {
         int MIN = 25;
 
-        String[] s = input.split("\n");
+        String[] s = input.split("\n\r");
         List<String> list = Arrays.stream(s).toList();
 
         System.out.println("Hello world!");
         List<Lecture> lectures = new ArrayList<>();
         stringListToLectures(list, lectures);
 
+        Lecture lecture1 = lectures.get(0);
         int sum = 0;
         int minSeconds = 60 * MIN;
         int index = 0;
@@ -29,19 +32,19 @@ public class PlannerSerivce {
             sum += lecture.getTime();
             if (sum >= minSeconds) {
                 lecCount++;
-                System.out.print("DAY" + day);
-                System.out.print("\t" + lectures.get(index - lecCount).getName());
-                System.out.print("\t" + lecture.getName());
-                System.out.print("\t" + (sum / 60) + "분 " + (sum % 60) + "초 \n");
+                log.info("DAY" + day);
+                log.info("\t" + lectures.get(index - lecCount).getName());
+                log.info("\t" + lecture.getName());
+                log.info("\t" + (sum / 60) + "분 " + (sum % 60) + "초");
                 sum = 0;
                 day++;
                 lecCount = 0;
             } else {
                 if (index == lectures.size()) {
-                    System.out.print("DAY" + day);
-                    System.out.print("\t" + lectures.get(index - lecCount - 1).getName());
-                    System.out.print("\t" + lecture.getName());
-                    System.out.print("\t" + (sum / 60) + "분 " + (sum % 60) + "초 \n");
+                    log.info("DAY" + day);
+                    log.info("\t" + lectures.get(index - lecCount - 1).getName());
+                    log.info("\t" + lecture.getName());
+                    log.info("\t" + (sum / 60) + "분 " + (sum % 60) + "초");
                 }
                 lecCount++;
             }
@@ -52,35 +55,42 @@ public class PlannerSerivce {
         int sectionNum = 0;
         int index = 0;
         while (true) {
-            String next = list.get(index++);
-            if (next.startsWith("섹션")) {
-                for (int i = 0; i < 2; i++)
-                    index++;
+            String curr = list.get(index);
+            if (curr.startsWith("섹션")) {
+                index += 2;
                 sectionNum++;
             } else {
-                String timeStr = list.get(index++);
+                // lecName = curr;
+                index++;
+                if (list.get(index).startsWith("미리보기")) {
+                    index++;
+                }
+                String timeStr = list.get(index);
+//                System.out.println("timeStr = " + timeStr);
                 String[] arr = timeStr.split(":");
                 int min = Integer.parseInt(arr[0].trim());
                 int sec = Integer.parseInt(arr[1].trim());
                 int time = min * 60 + sec;
-
+//                System.out.println("lecName = " + curr);
                 int tenMinutes = 10 * 60 + 59;
                 if (time > tenMinutes) {
                     int dividedLecNum = time / tenMinutes + 1;
                     time /= dividedLecNum;
                     for (int i = 0; i < dividedLecNum; i++) {
                         if (i == dividedLecNum - 1) {
-                            lectures.add(new Lecture("섹션 " + sectionNum, next, time));
+                            lectures.add(new Lecture("섹션 " + sectionNum, curr, time));
+//                            System.out.println("lectures.get(lectures.size()-1).getName() = " + lectures.get(lectures.size()-1).getName());
                         } else {
-                            lectures.add(new Lecture("섹션 " + sectionNum, next + " (" + (i + 1) + "/" + dividedLecNum + ")", time));
+                            lectures.add(new Lecture("섹션 " + sectionNum, curr + " (" + (i + 1) + "/" + dividedLecNum + ")", time));
                         }
                     }
                 } else {
-                    lectures.add(new Lecture("섹션 " + sectionNum, next, time));
+                    lectures.add(new Lecture("섹션 " + sectionNum, curr, time));
                 }
-                if (next.trim().endsWith("다음으로")) {
+                if (curr.trim().endsWith("다음으로")) {
                     break;
                 }
+                index ++;
             }
         }
     }

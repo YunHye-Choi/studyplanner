@@ -1,15 +1,12 @@
 package com.smallcherry.studyplanner.domain;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class Lecture {
     String section;
     String name;
     int time; // sec
-
-    public Lecture(String s, String n, int time) {
-        this.section = s;
-        this.name = n;
-        this.time = time;
-    }
 
     public int getTime() {
         return time;
