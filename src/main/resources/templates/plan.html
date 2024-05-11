@@ -14,10 +14,14 @@
 <div class="container" style="max-width: 600px">
     <form action="result.html" th:action="@{/result}" method="post">
         <div class="py-5 text-center">
-            <h2>입력하세요</h2>
+            <h2>studyplanner</h2>
+            <h3>인프런 강의 수강 계획 플래너</h3>
         </div>
+        <label for="url">
+            원하는 강의의 대시보드 URL을 입력하세요.
+        </label>
         <div>
-            <textarea id="input" name="input" style="height: 600px" class="form-control"></textarea>
+            <textarea id="url" name="url" style="height: 200px" class="form-control"></textarea>
         </div>
         <hr class="my-4">
         <div class="row">

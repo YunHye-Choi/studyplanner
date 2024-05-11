@@ -14,6 +14,18 @@
     </title>
 </head>
 <body>
-
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>수강계획 결과입니다.</h2>
+    </div>
+    <div>
+        <label for="plan">
+            당신의 수강계획
+        </label>
+        <textarea id="plan" name="plan" style="height: 600px" class="form-control" th:text="${plan}">
+        </textarea>
+    </div>
+    <hr class="my-4">
+</div>
 </body>
 </html>

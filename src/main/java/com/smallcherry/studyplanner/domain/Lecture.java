@@ -1,8 +1,10 @@
 package com.smallcherry.studyplanner.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @AllArgsConstructor
+@Builder
 public class Lecture {
     String section;
     String name;

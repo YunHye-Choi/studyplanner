@@ -14,14 +14,14 @@ public class PlannerController {
     private final PlannerSerivce plannerSerivce;
 
     @GetMapping("")
-    public String init(Model model, @ModelAttribute("input") String userInput) {
+    public String init() {
         return "plan";
     }
 
     @PostMapping("/result")
-    public String submitPlan(Model model, @ModelAttribute("input") String userInput) {
-        plannerSerivce.getPlan(userInput);
-        model.addAttribute("plan", "");
+    public String submitPlan(Model model, @ModelAttribute("url") String url) {
+        String plan = plannerSerivce.getPlan(url);
+        model.addAttribute("plan", plan);
         return "result";
     }
 }
