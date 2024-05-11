@@ -14,10 +14,10 @@ public class PlannerSerivce {
     public void getPlan(String input) {
         int MIN = 25;
 
-        String[] s = input.split("\n\r");
+        String[] s = input.split("\\r?\\n|\\r");
         List<String> list = Arrays.stream(s).toList();
 
-        System.out.println("Hello world!");
+        System.out.println(" ==== studyplanner STARTED ==== ");
         List<Lecture> lectures = new ArrayList<>();
         stringListToLectures(list, lectures);
 
@@ -32,19 +32,19 @@ public class PlannerSerivce {
             sum += lecture.getTime();
             if (sum >= minSeconds) {
                 lecCount++;
-                log.info("DAY" + day);
-                log.info("\t" + lectures.get(index - lecCount).getName());
-                log.info("\t" + lecture.getName());
-                log.info("\t" + (sum / 60) + "분 " + (sum % 60) + "초");
+                System.out.print("DAY" + day);
+                System.out.print("\t" + lectures.get(index - lecCount).getName());
+                System.out.print("\t" + lecture.getName());
+                System.out.println("\t" + (sum / 60) + "분 " + (sum % 60) + "초");
                 sum = 0;
                 day++;
                 lecCount = 0;
             } else {
                 if (index == lectures.size()) {
-                    log.info("DAY" + day);
-                    log.info("\t" + lectures.get(index - lecCount - 1).getName());
-                    log.info("\t" + lecture.getName());
-                    log.info("\t" + (sum / 60) + "분 " + (sum % 60) + "초");
+                    System.out.print("DAY" + day);
+                    System.out.print("\t" + lectures.get(index - lecCount - 1).getName());
+                    System.out.print("\t" + lecture.getName());
+                    System.out.println("\t" + (sum / 60) + "분 " + (sum % 60) + "초");
                 }
                 lecCount++;
             }
@@ -66,12 +66,10 @@ public class PlannerSerivce {
                     index++;
                 }
                 String timeStr = list.get(index);
-//                System.out.println("timeStr = " + timeStr);
                 String[] arr = timeStr.split(":");
                 int min = Integer.parseInt(arr[0].trim());
                 int sec = Integer.parseInt(arr[1].trim());
                 int time = min * 60 + sec;
-//                System.out.println("lecName = " + curr);
                 int tenMinutes = 10 * 60 + 59;
                 if (time > tenMinutes) {
                     int dividedLecNum = time / tenMinutes + 1;
@@ -79,7 +77,6 @@ public class PlannerSerivce {
                     for (int i = 0; i < dividedLecNum; i++) {
                         if (i == dividedLecNum - 1) {
                             lectures.add(new Lecture("섹션 " + sectionNum, curr, time));
-//                            System.out.println("lectures.get(lectures.size()-1).getName() = " + lectures.get(lectures.size()-1).getName());
                         } else {
                             lectures.add(new Lecture("섹션 " + sectionNum, curr + " (" + (i + 1) + "/" + dividedLecNum + ")", time));
                         }
