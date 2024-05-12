@@ -8,7 +8,6 @@
 - `2024.05.11.` 웹 화면으로 강의 URL만 입력받아서 웹 화면으로 출력
 - `2024.05.09.` 웹 화면으로 강의 커리큘럼 복사한 텍스트 받아오고, 표준출력
 - `2024.05.08.` 바닐라 자바 프로젝트 (https://github.com/YunHye-Choi/inflearnStudyPlanner) 에서 Spring 프로젝트로 이관
-
 ---
 ## Troubles
 ### bugs
@@ -28,6 +27,8 @@
 ### ops
 - Github Action과 Docker를 이용한 CI/CD 도입
 - dns 예쁘게 만지기
+### documents
+- Wiki - 이미지 및 매뉴얼 상세 추가
 ## 고민 
 (추가할 지 말 지 확실하지 않은 아이디어들)
 - 날짜 지정 기능 추가 (사용자로부터 startDate, 제외 날짜 등 입력받아 수강 계획과 매핑)
