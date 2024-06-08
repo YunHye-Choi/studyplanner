@@ -10,9 +10,6 @@
 - `2024.05.08.` 바닐라 자바 프로젝트 (https://github.com/YunHye-Choi/inflearnStudyPlanner) 에서 Spring 프로젝트로 이관
 ---
 ## Troubles
-### bugs
-- 섹션 0외의 섹션에 강의제목 - 강의시간 매칭 안되는 부분 있으면 에러 발생
-  - 해당 부분이 강의인지 아닌지 판별하는 로직 필요
 ### ops
 - AWS Elastic Beanstalk 환경 상태 [Warning]인 이유 원인 파악 필요
 ## 개선할 점

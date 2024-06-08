@@ -8,10 +8,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.AttributeSet;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -32,58 +30,56 @@ public class PlannerSerivce {
             Elements sectionCoverList = doc.select("div.cd-accordion__section-cover");
             int sectionNum = 0;
             for (Element sectionCover : sectionCoverList) {
-                if (sectionCover.select("span.cd-accordion__section-title").get(0).text().startsWith("섹션 0")) {
-                    continue;
-                }
-                sectionNum++;
-                Elements titleElements = sectionCover.select("span.ac-accordion__unit-title");
-                Elements timeElements = sectionCover.select("span.ac-accordion__unit-info--time");
-                if (titleElements.size() != timeElements.size()) {
-                    Elements section = sectionCover.select("span.cd-accordion__section-title");
-                    String errorMessage = "파싱 문제 있음 - title, time 안맞는 문제";
-                    log.error(errorMessage);
-                    throw new RuntimeException(errorMessage);
-                }
-                for (int index = 0; index < titleElements.size(); index++) {
-                    String title = titleElements.get(index).text();
-                    String timeStr = timeElements.get(index).text();
-                    String[] arr = timeStr.split(":");
-                    int min = Integer.parseInt(arr[0].trim());
-                    int sec = Integer.parseInt(arr[1].trim());
-                    int time = min * 60 + sec;
-                    int tenMinutes = 10 * 60 + 59;
-                    if (time > tenMinutes) {
-                        int dividedLecNum = time / tenMinutes + 1;
-                        time /= dividedLecNum;
-                        for (int i = 0; i < dividedLecNum; i++) {
-                            if (i == dividedLecNum - 1) {
-                                lectureList.add(
-                                        Lecture.builder()
-                                                .section("섹션 " + sectionNum)
-                                                .name(title)
-                                                .time(time)
-                                                .build()
-                                );
-                            } else {
-                                lectureList.add(
-                                        Lecture.builder()
-                                                .section("섹션 " + sectionNum)
-                                                .name(title + " (" + (i + 1) + "/" + dividedLecNum + ")")
-                                                .time(time)
-                                                .build()
-                                );
+                Elements unitCover = sectionCover.select("div.cd-accordion__unit-cover");
+                Element unit = unitCover.get(0);
+                Elements children = unit.children();
+                for (Element unitChild : children) {
+                    if (unitChild.text().isEmpty()) continue;
+
+                    Elements titleElement = unitChild.select("span.ac-accordion__unit-title");
+                    Elements timeElement = unitChild.select("span.ac-accordion__unit-info--time");
+                    if (!timeElement.isEmpty()) {
+                        String title = titleElement.get(0).text();
+                        String timeStr = timeElement.get(0).text();
+                        String[] arr = timeStr.split(":");
+                        int min = Integer.parseInt(arr[0].trim());
+                        int sec = Integer.parseInt(arr[1].trim());
+                        int time = min * 60 + sec;
+                        int tenMinutes = 10 * 60 + 59;
+                        if (time > tenMinutes) {
+                            int dividedLecNum = time / tenMinutes + 1;
+                            time /= dividedLecNum;
+                            for (int i = 0; i < dividedLecNum; i++) {
+                                if (i == dividedLecNum - 1) {
+                                    lectureList.add(
+                                            Lecture.builder()
+                                                    .section("섹션 " + sectionNum)
+                                                    .name(title)
+                                                    .time(time)
+                                                    .build()
+                                    );
+                                } else {
+                                    lectureList.add(
+                                            Lecture.builder()
+                                                    .section("섹션 " + sectionNum)
+                                                    .name(title + " (" + (i + 1) + "/" + dividedLecNum + ")")
+                                                    .time(time)
+                                                    .build()
+                                    );
+                                }
                             }
+                        } else {
+                            lectureList.add(
+                                    Lecture.builder()
+                                            .section("섹션 " + sectionNum)
+                                            .name(title)
+                                            .time(time)
+                                            .build()
+                            );
                         }
-                    } else {
-                        lectureList.add(
-                                Lecture.builder()
-                                        .section("섹션 " + sectionNum)
-                                        .name(title)
-                                        .time(time)
-                                        .build()
-                        );
                     }
                 }
+                sectionNum++;
             }
         } catch (IOException e) {
             System.err.println("Error fetching the document: " + e.getMessage());
@@ -116,8 +112,7 @@ public class PlannerSerivce {
                 lecCount++;
             }
         }
-        String resultString = sb.toString();
-        return resultString;
+        return sb.toString();
     }
 
     private static void stringListToLectures(List<String> list, List<Lecture> lectures) {
@@ -129,7 +124,6 @@ public class PlannerSerivce {
                 index += 2;
                 sectionNum++;
             } else {
-                // lecName = curr;
                 index++;
                 if (list.get(index).startsWith("미리보기")) {
                     index++;
