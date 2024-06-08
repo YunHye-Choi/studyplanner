@@ -4,10 +4,19 @@
 ## How to use
 - https://github.com/YunHye-Choi/studyplanner/wiki
 ## 업데이트 노트
+- `2024.06.09.` bugfix: 강의 제목 - 강의 시간 매칭되지 않으면 에러 발생하던 문제 해결
 - `2024.05.12.` AWS Elastic Beanstalk을 이용해 웹 상에 배포
 - `2024.05.11.` 웹 화면으로 강의 URL만 입력받아서 웹 화면으로 출력
 - `2024.05.09.` 웹 화면으로 강의 커리큘럼 복사한 텍스트 받아오고, 표준출력
 - `2024.05.08.` 바닐라 자바 프로젝트 (https://github.com/YunHye-Choi/inflearnStudyPlanner) 에서 Spring 프로젝트로 이관
+## Versions
+(ci/cd 적용 전 임시로 사용)
+
+| 버전 명                   | 배포 일자       | 업데이트 내용                              |
+|------------------------|-------------|--------------------------------------|
+| studyplanner-version-3 | 2024.06.09. | 강의 제목 - 강의 시간 매칭되지 않으면 에러 발생하던 문제 해결 |
+| studyplanner-version-2 | 2024.05.12. | first deploy                         |
+
 ---
 ## Troubles
 ### ops
